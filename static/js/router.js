@@ -9,8 +9,8 @@ define(['models', 'views', 'collections'], function (Models, Views, Collections)
     landing: function () {
       console.log('routing:w');
       var users = new Collections.Users();
-      var users_view = new Views.UsersView({collection: users});
-      users_view.render();
+      var users_view = new Views.UsersView({el: $('#users'), collection: users});
+      console.log(users_view);
     }
 
   });

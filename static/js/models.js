@@ -1,8 +1,11 @@
 define([], function() {
 
   var User = Backbone.Model.extend({
-    url: '/users',
+    url: function() {
+      return '/users/' + this.get('id')
+    },
     defaults: {
+      'id': 0,
       'username': 'test',
       'password': 'password'
     },
