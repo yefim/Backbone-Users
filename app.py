@@ -46,9 +46,14 @@ def user(user_id):
     return simplejson.dumps(user_id)
   elif request.method =='PUT':
     data = simplejson.loads(request.data)
-    user = User(data['username'], data['password'])
-    db.session.add(user)
-    db.session.commit()
+    if data['username'] != 0 and User.query.filter_by(id=data['id']) == None:
+      user = User(data['username'], data['password'])
+      db.session.add(user)
+      db.session.commit()
+    else:
+      user = User.query.filter_by(id=data['id']).first()
+      user.username = data['username']
+      db.session.commit()
     return simplejson.dumps(user.id)
 
 if __name__ == '__main__':

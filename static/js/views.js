@@ -3,7 +3,8 @@ define(['models'], function(Models) {
   var UserView = Backbone.View.extend({
     tagName: 'tr',
     events: {
-      'click button.delete': 'remove'
+      'click button.delete': 'remove',
+      'keydown input'      : 'saveUser'
     },
     initialize: function() {
       _.bindAll(this, 'render', 'unrender','remove');
@@ -11,7 +12,9 @@ define(['models'], function(Models) {
       this.model.bind('remove', this.unrender);
     },
     render: function() {
-      $(this.el).html("<td>" + this.model.get('id') +  "</td><td>" + this.model.get('username') + "</td><td>" + this.model.get('password') + "</td><td><button class='delete'>Remove</button></td>");
+      $(this.el).html(
+        "<td>" + this.model.get('id') +  "</td><td><input type='text' value='" + this.model.get('username') + "'/></td><td>" + this.model.get('password') + "</td><td><button class='delete'>Remove</button></td>"
+        );
       return this;
     },
     unrender: function() {
@@ -20,6 +23,13 @@ define(['models'], function(Models) {
     remove: function() {
       console.log('Removing model');
       this.model.destroy();
+    },
+    saveUser: function(e) {
+      if (e.which === 13) {
+        this.model.save({username: $(e.currentTarget).val()});
+        console.log($(e.currentTarget).val());  
+        console.log(this.model.collection);
+      }
     }
   });
 
@@ -39,7 +49,7 @@ define(['models'], function(Models) {
     render: function() {
       var self = this;
       $(this.el).append('<button id="add">Add</button>');
-      $(this.el).append('<table></table>');
+      $(this.el).append('<table><tr><td>ID</td><td>Username</td><td>Password</td><td></td></tr></table>');
       _.each(this.collection.models, function(m) {
         self.appendUser(m);
       }, this);
