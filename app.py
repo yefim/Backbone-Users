@@ -1,4 +1,4 @@
-import os, json
+import os, simplejson
 
 from flask import Flask, request, render_template
 from flask.ext.sqlalchemy import SQLAlchemy
@@ -25,7 +25,7 @@ def login():
     'username': 'geoff',
     'password': 'password'
   }
-  return json.dumps(u)
+  return simplejson.dumps(u)
 
 @app.route('/users', methods=['POST', 'GET'])
 def users():
@@ -35,7 +35,7 @@ def users():
     users = User.query.all()
     for user in users:
       del(user._sa_instance_state)
-    return json.dumps([u.__dict__ for u in users])
+    return simplejson.dumps([u.__dict__ for u in users])
 
 @app.route('/users/<user_id>', methods=['DELETE', 'POST', 'PUT'])
 def user(user_id):
@@ -43,13 +43,13 @@ def user(user_id):
     user = User.query.filter_by(id=user_id).first()
     db.session.delete(user)
     db.session.commit()
-    return json.dumps(user_id)
+    return simplejson.dumps(user_id)
   elif request.method =='PUT':
-    data = json.loads(request.data)
+    data = simplejson.loads(request.data)
     user = User(data['username'], data['password'])
     db.session.add(user)
     db.session.commit()
-    return json.dumps(user.id)
+    return simplejson.dumps(user.id)
 
 if __name__ == '__main__':
   db.create_all()
