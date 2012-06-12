@@ -46,7 +46,7 @@ def user(user_id):
     return simplejson.dumps(user_id)
   elif request.method =='PUT':
     data = simplejson.loads(request.data)
-    if data['username'] != 0 and User.query.filter_by(id=data['id']) == None:
+    if User.query.filter_by(id=data['id']).first() == None:
       user = User(data['username'], data['password'])
       db.session.add(user)
       db.session.commit()
