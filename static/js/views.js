@@ -48,17 +48,17 @@ define(['models'], function(Models) {
     addUser: function() {
       console.log('Adding a User');
       var self = this;
-      var u = new Models.User({silent: true});
+      var u = new Models.User();
       u.set({
-        silent: true,
-        username: u.defaults.username + this.counter
+        id: this.collection.nextIndex(),
+        username: u.defaults().username + this.counter
       });
+      console.log(u);
       this.counter++;
+      console.log(this.collection.nextIndex());
       this.collection.create(u, {
-        silent: true,
         success: function(model, response) {
           u.set({id: response});
-          self.appendUser(u);
         }
       });
     },

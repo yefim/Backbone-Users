@@ -4,10 +4,12 @@ define([], function() {
     url: function() {
       return '/users/' + this.get('id')
     },
-    defaults: {
-      'id': 0,
-      'username': 'test',
-      'password': 'password'
+    defaults: function() {
+      return {
+        'id': 0, //this.collection.nextIndex(),
+        'username': 'u_name',
+        'password': 'lalala'
+      }
     },
     update: function() {
       this.save();
