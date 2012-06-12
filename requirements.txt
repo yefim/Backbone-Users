@@ -7,4 +7,5 @@ argparse==1.2.1
 distribute==0.6.24
 gunicorn==0.14.3
 wsgiref==0.1.2
+json
 psycopg2
